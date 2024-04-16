@@ -8,6 +8,8 @@ This demo app covers best practices for how to use the 0x Swap API's [/price](ht
 
 > [!WARNING]  
 > This is a demo, and is not ready for production use. The code has not been audited and does not account for all error handling. Use at your own risk.
+> 
+<img width="437" alt="priceView_with_fee" src="https://github.com/0xProject/token-swap-dapp-course-code/assets/8042156/26fd0812-bffa-4417-9f41-cef2e98cd322">
 
 ## Getting Started
 
