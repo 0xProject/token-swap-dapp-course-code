@@ -363,7 +363,7 @@ export default function PriceView({
       args: [takerAddress, exchangeProxy(chainId)],
     });
 
-    // 2. (only if no allowance): write to erc20, approve 0x Exchange Proxy to spend max integer
+    // 2. (only if no allowance): write to erc20, approve 0x Exchange Proxy to spend max allowance
     const { data } = useSimulateContract({
       address: sellTokenAddress,
       abi: erc20Abi,
@@ -371,8 +371,7 @@ export default function PriceView({
       args: [exchangeProxy(chainId), MAX_ALLOWANCE],
     });
 
-    // Define useWriteContract for the 'approve' operation
-    // what was approveAsync?
+    // Define writeContractResult for the 'approve' operation
     const {
       data: writeContractResult,
       writeContractAsync: writeContract,
