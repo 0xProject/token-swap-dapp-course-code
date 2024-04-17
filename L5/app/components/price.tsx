@@ -395,7 +395,7 @@ export default function PriceView({
       return <div>Something went wrong: {error.message}</div>;
     }
 
-    // Need to figure out approval button
+    // update button depending if needs approval or approval pending
     if (allowance === 0n) {
       return (
         <>
