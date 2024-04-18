@@ -148,7 +148,7 @@ export default function QuoteView({
             sendTransaction({
               gas: estimatedGas,
               to: quote?.to,
-              value: quote?.value, // only native token
+              value: quote?.value, // only used for native tokens
               data: quote?.data,
               gasPrice: quote?.gasPrice,
             });

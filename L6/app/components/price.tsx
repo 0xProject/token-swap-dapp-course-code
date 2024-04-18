@@ -372,7 +372,6 @@ export default function PriceView({
     });
 
     // Define useWriteContract for the 'approve' operation
-    // what was approveAsync?
     const {
       data: writeContractResult,
       writeContractAsync: writeContract,
@@ -396,7 +395,6 @@ export default function PriceView({
       return <div>Something went wrong: {error.message}</div>;
     }
 
-    // Need to figure out approval button
     if (allowance === 0n) {
       return (
         <>

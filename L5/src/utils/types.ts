@@ -4,7 +4,7 @@ export interface PriceResponse {
   price: string;
   estimatedPriceImpact: string;
   value: string;
-  gasPrice: string;
+  gasPrice: bigint;
   grossBuyAmount: string;
   gas: string;
   estimatedGas: string;
