@@ -1,6 +1,10 @@
 import { useEffect, useState, ChangeEvent } from "react";
 import { formatUnits, parseUnits } from "ethers";
-import { useSendTransaction, useEstimateGas } from "wagmi";
+import {
+  useEstimateGas,
+  useSendTransaction,
+  useWaitForTransactionReceipt,
+} from "wagmi";
 import { erc20Abi, Address } from "viem";
 import type { PriceResponse, QuoteResponse } from "../../src/utils/types";
 import {
@@ -67,13 +71,19 @@ export default function QuoteView({
     setQuote,
   ]);
 
-  const { data } = useEstimateGas({
+  const { data: estimatedGas } = useEstimateGas({
     to: quote?.to, // The address of the contract to send call data to, in this case 0x Exchange Proxy
     value: quote?.value,
     data: quote?.data, // The call data required to be sent to the to contract address.
+    gasPrice: quote?.gasPrice,
   });
 
-  const { sendTransaction } = useSendTransaction();
+  const { data: hash, isPending, sendTransaction } = useSendTransaction();
+
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
 
   console.log("sellAmount:", quote?.sellAmount);
   console.log("decimals:", sellTokenInfo(chainId).decimals);
@@ -128,6 +138,7 @@ export default function QuoteView({
 
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+        disabled={isPending}
         onClick={() => {
           console.log("submitting quote to blockchain");
           console.log("to", quote.to);
@@ -135,14 +146,22 @@ export default function QuoteView({
 
           sendTransaction &&
             sendTransaction({
-              gas: data,
+              gas: estimatedGas,
               to: quote?.to,
-              value: quote?.value,
+              value: quote?.value, // only native token
+              data: quote?.data,
+              gasPrice: quote?.gasPrice,
             });
         }}
       >
-        Place Order
+        {isPending ? "Confirming..." : "Place Order"}
       </button>
+      <br></br>
+      <br></br>
+      {hash && <div>Transaction Hash: {hash}</div>}
+      <br></br>
+      {isConfirming && <div>Waiting for confirmation ⏳ ...</div>}
+      {isConfirmed && <div>Transaction Confirmed! 🎉</div>}
     </div>
   );
 }
