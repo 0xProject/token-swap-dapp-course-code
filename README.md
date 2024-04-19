@@ -18,10 +18,9 @@ This demo app covers best practices for how to use the 0x Swap API's [/price](ht
 1. Setup the required API keys
 
 | **API Keys**           | **Description**                                                                                                        | **Code**                                                                                                                      |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| alchemyId              | Alchemy API key (create one [here](https://docs.alchemy.com/docs/alchemy-quickstart-guide#1key-create-an-alchemy-key)) | Add [here](https://github.com/0xProject/0x-nextjs-demo-app/blob/main/pages/_app.tsx#L14)                                      |
-| walletConnectProjectId | WalletConnect's SDK to help with connecting wallets (create one [here](https://cloud.walletconnect.com/sign-in))       | Add [here]                                                                                                                    |
-| 0x                     | 0x API key (create one [here](https://0x.org/docs/introduction/getting-started))                                       | Add for /price [here](https://github.com/0xProject/0x-nextjs-demo-app/blob/main/pages/api/price.ts#L18) and for /quote [here] |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------- | -----------------------------------------------------------------------------------------------------------------------------         |
+| walletConnectProjectId | WalletConnect's SDK to help with connecting wallets (create one [here](https://cloud.walletconnect.com/sign-in))       | Add [here](https://github.com/0xProject/token-swap-dapp-course-code/blob/main/L1/app/providers.tsx#L29)                                                                                                                    |
+| 0x                     | 0x API key (create one [here](https://0x.org/docs/introduction/getting-started))                                       | Add for /price [here](https://github.com/0xProject/token-swap-dapp-course-code/blob/main/L8/app/api/price/route.ts#L11) and for /quote [here](https://github.com/0xProject/token-swap-dapp-course-code/blob/main/L8/app/api/quote/route.ts#L10) |
 
 2. Install project dependencies
 
