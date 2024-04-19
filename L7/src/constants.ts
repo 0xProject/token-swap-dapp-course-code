@@ -1,5 +1,8 @@
 import { Address } from "viem";
 
+export const AFFILIATE_FEE = 0.01; // Percentage of the buyAmount that should be attributed to feeRecipient as affiliate fees
+export const FEE_RECIPIENT = "0x75A94931B81d81C7a62b76DC0FcFAC77FbE1e917"; // The ETH address that should receive affiliate fees
+
 export const POLYGON_EXCHANGE_PROXY =
   "0xDef1C0ded9bec7F1a1670819833240f027b25EfF";
 

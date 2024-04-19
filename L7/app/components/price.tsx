@@ -14,14 +14,13 @@ import {
   POLYGON_TOKENS_BY_SYMBOL,
   POLYGON_EXCHANGE_PROXY,
   MAX_ALLOWANCE,
+  AFFILIATE_FEE,
+  FEE_RECIPIENT,
 } from "../../src/constants";
 import ZeroExLogo from "../../src/images/white-0x-logo.png";
 import Image from "next/image";
 import qs from "qs";
 import { write } from "fs";
-
-const AFFILIATE_FEE = 0.01; // Percentage of the buyAmount that should be attributed to feeRecipient as affiliate fees
-const FEE_RECIPIENT = "0x75A94931B81d81C7a62b76DC0FcFAC77FbE1e917"; // The ETH address that should receive affiliate fees
 
 export const DEFAULT_BUY_TOKEN = (chainId: number) => {
   if (chainId === 137) {

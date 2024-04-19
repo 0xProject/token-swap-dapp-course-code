@@ -13,12 +13,11 @@ import {
   POLYGON_TOKENS_BY_ADDRESS,
   POLYGON_EXCHANGE_PROXY,
   MAX_ALLOWANCE,
+  AFFILIATE_FEE,
+  FEE_RECIPIENT,
 } from "../../src/constants";
 import Image from "next/image";
 import qs from "qs";
-
-const AFFILIATE_FEE = 0.01; // Percentage of the buyAmount that should be attributed to feeRecipient as affiliate fees
-const FEE_RECIPIENT = "0x75A94931B81d81C7a62b76DC0FcFAC77FbE1e917"; // The ETH address that should receive affiliate fees
 
 export default function QuoteView({
   takerAddress,
@@ -78,13 +77,6 @@ export default function QuoteView({
     FEE_RECIPIENT,
     AFFILIATE_FEE,
   ]);
-
-  const { data: estimatedGas } = useEstimateGas({
-    to: quote?.to, // The address of the contract to send call data to, in this case 0x Exchange Proxy
-    value: quote?.value,
-    data: quote?.data, // The call data required to be sent to the to contract address.
-    gasPrice: quote?.gasPrice,
-  });
 
   const { data: hash, isPending, sendTransaction } = useSendTransaction();
 
@@ -171,7 +163,7 @@ export default function QuoteView({
 
           sendTransaction &&
             sendTransaction({
-              gas: estimatedGas,
+              gas: quote?.gas,
               to: quote?.to,
               value: quote?.value, // only used for native tokens
               data: quote?.data,
@@ -183,10 +175,16 @@ export default function QuoteView({
       </button>
       <br></br>
       <br></br>
-      {hash && <div>Transaction Hash: {hash}</div>}
       <br></br>
       {isConfirming && <div>Waiting for confirmation ⏳ ...</div>}
-      {isConfirmed && <div>Transaction Confirmed! 🎉</div>}
+      {isConfirmed && (
+        <div>
+          Transaction Confirmed! 🎉{" "}
+          <a href={`https://https://polygonscan.com/tx/${hash}`}>
+            Check Polygonscan
+          </a>
+        </div>
+      )}
     </div>
   );
 }

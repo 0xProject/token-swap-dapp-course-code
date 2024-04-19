@@ -71,13 +71,6 @@ export default function QuoteView({
     setQuote,
   ]);
 
-  const { data: estimatedGas } = useEstimateGas({
-    to: quote?.to, // The address of the contract to send call data to, in this case 0x Exchange Proxy
-    value: quote?.value,
-    data: quote?.data, // The call data required to be sent to the to contract address.
-    gasPrice: quote?.gasPrice,
-  });
-
   const { data: hash, isPending, sendTransaction } = useSendTransaction();
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
@@ -146,7 +139,7 @@ export default function QuoteView({
 
           sendTransaction &&
             sendTransaction({
-              gas: estimatedGas,
+              gas: quote?.gas,
               to: quote?.to,
               value: quote?.value, // only used for native tokens
               data: quote?.data,
@@ -158,10 +151,16 @@ export default function QuoteView({
       </button>
       <br></br>
       <br></br>
-      {hash && <div>Transaction Hash: {hash}</div>}
       <br></br>
       {isConfirming && <div>Waiting for confirmation ⏳ ...</div>}
-      {isConfirmed && <div>Transaction Confirmed! 🎉</div>}
+      {isConfirmed && (
+        <div>
+          Transaction Confirmed! 🎉{" "}
+          <a href={`https://https://polygonscan.com/tx/${hash}`}>
+            Check Polygonscan
+          </a>
+        </div>
+      )}
     </div>
   );
 }

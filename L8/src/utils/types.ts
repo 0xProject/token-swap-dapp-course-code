@@ -6,9 +6,9 @@ export interface PriceResponse {
   price: string;
   estimatedPriceImpact: string;
   value: bigint;
-  gasPrice: string;
+  gasPrice: bigint;
   grossBuyAmount: string;
-  gas: string;
+  gas: bigint;
   estimatedGas: string;
   protocolFee: string;
   minimumProtocolFee: string;
@@ -33,9 +33,9 @@ export interface QuoteResponse {
   from: string;
   data: Address;
   value: bigint;
-  gas: string;
+  gas: bigint;
   estimatedGas: string;
-  gasPrice: string;
+  gasPrice: bigint;
   grossBuyAmount: string;
   protocolFee: string;
   minimumProtocolFee: string;

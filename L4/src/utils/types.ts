@@ -6,7 +6,7 @@ export interface PriceResponse {
   value: string;
   gasPrice: bigint;
   grossBuyAmount: string;
-  gas: string;
+  gas: bigint;
   estimatedGas: string;
   protocolFee: string;
   minimumProtocolFee: string;
