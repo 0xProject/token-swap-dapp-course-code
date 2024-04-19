@@ -1,18 +1,10 @@
-import { useEffect, useState, ChangeEvent } from "react";
-import { formatUnits, parseUnits } from "ethers";
-import {
-  useEstimateGas,
-  useSendTransaction,
-  useWaitForTransactionReceipt,
-} from "wagmi";
-import { erc20Abi, Address } from "viem";
+import { useEffect } from "react";
+import { formatUnits } from "ethers";
+import { useSendTransaction, useWaitForTransactionReceipt } from "wagmi";
+import { Address } from "viem";
 import type { PriceResponse, QuoteResponse } from "../../src/utils/types";
 import {
-  POLYGON_TOKENS,
-  POLYGON_TOKENS_BY_SYMBOL,
   POLYGON_TOKENS_BY_ADDRESS,
-  POLYGON_EXCHANGE_PROXY,
-  MAX_ALLOWANCE,
   AFFILIATE_FEE,
   FEE_RECIPIENT,
 } from "../../src/constants";
@@ -176,13 +168,13 @@ export default function QuoteView({
       <br></br>
       <br></br>
       <br></br>
-      {isConfirming && <div>Waiting for confirmation ⏳ ...</div>}
+      {isConfirming && (
+        <div className="text-center">Waiting for confirmation ⏳ ...</div>
+      )}
       {isConfirmed && (
-        <div>
+        <div className="text-center">
           Transaction Confirmed! 🎉{" "}
-          <a href={`https://https://polygonscan.com/tx/${hash}`}>
-            Check Polygonscan
-          </a>
+          <a href={`https://polygonscan.com/tx/${hash}`}>Check Polygonscan</a>
         </div>
       )}
     </div>

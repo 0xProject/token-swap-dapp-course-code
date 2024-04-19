@@ -46,8 +46,10 @@ export default function PriceView({}) {
         </header>
 
         <div className="bg-slate-200 dark:bg-slate-800 p-4 rounded-md mb-3">
+          <label htmlFor="sell" className="text-gray-300 mb-2 mr-2">
+            Sell
+          </label>
           <section className="mt-4 flex items-start justify-center">
-            <label htmlFor="sell-select" className="sr-only"></label>
             <Image
               alt={sellToken}
               className="h-9 w-9 mr-2 rounded-md"
@@ -83,12 +85,16 @@ export default function PriceView({}) {
               value={sellAmount}
               className="h-9 rounded-md"
               style={{ border: "1px solid black" }}
+              type="number"
               onChange={(e) => {
                 setTradeDirection("sell");
                 setSellAmount(e.target.value);
               }}
             />
           </section>
+          <label htmlFor="buy" className="text-gray-300 mb-2 mr-2">
+            Buy
+          </label>
           <section className="flex mb-6 mt-4 items-start justify-center">
             <label htmlFor="buy-token" className="sr-only"></label>
             <Image
@@ -123,6 +129,7 @@ export default function PriceView({}) {
               value={buyAmount}
               className="h-9 rounded-md bg-white cursor-not-allowed"
               style={{ border: "1px solid black" }}
+              type="number"
               disabled
               onChange={(e) => {
                 setTradeDirection("buy");

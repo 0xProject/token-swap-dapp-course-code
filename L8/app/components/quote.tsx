@@ -1,14 +1,14 @@
-import { useEffect, useState, ChangeEvent } from "react";
-import { formatUnits, parseUnits } from "ethers";
-import { useSendTransaction, useEstimateGas } from "wagmi";
-import { erc20Abi, Address } from "viem";
+import { useEffect } from "react";
+import { formatUnits } from "ethers";
+import {
+  useSendTransaction,
+  useWaitForTransactionReceipt,
+  type BaseError,
+} from "wagmi";
+import { Address } from "viem";
 import type { PriceResponse, QuoteResponse } from "../../src/utils/types";
 import {
-  POLYGON_TOKENS,
-  POLYGON_TOKENS_BY_SYMBOL,
   POLYGON_TOKENS_BY_ADDRESS,
-  POLYGON_EXCHANGE_PROXY,
-  MAX_ALLOWANCE,
   AFFILIATE_FEE,
   FEE_RECIPIENT,
 } from "../../src/constants";
@@ -74,13 +74,17 @@ export default function QuoteView({
     AFFILIATE_FEE,
   ]);
 
-  const { data } = useEstimateGas({
-    to: quote?.to, // The address of the contract to send call data to, in this case 0x Exchange Proxy
-    value: quote?.value,
-    data: quote?.data, // The call data required to be sent to the to contract address.
-  });
+  const {
+    data: hash,
+    isPending,
+    error,
+    sendTransaction,
+  } = useSendTransaction();
 
-  const { sendTransaction } = useSendTransaction();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
 
   console.log("sellAmount:", quote?.sellAmount);
   console.log("decimals:", sellTokenInfo(chainId).decimals);
@@ -152,6 +156,7 @@ export default function QuoteView({
 
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+        disabled={isPending}
         onClick={() => {
           console.log("submitting quote to blockchain");
           console.log("to", quote.to);
@@ -159,14 +164,31 @@ export default function QuoteView({
 
           sendTransaction &&
             sendTransaction({
-              gas: data,
+              gas: quote?.gas,
               to: quote?.to,
-              value: quote?.value,
+              value: quote?.value, // only used for native tokens
+              data: quote?.data,
+              gasPrice: quote?.gasPrice,
             });
         }}
       >
-        Place Order
+        {isPending ? "Confirming..." : "Place Order"}
       </button>
+      <br></br>
+      <br></br>
+      <br></br>
+      {isConfirming && (
+        <div className="text-center">Waiting for confirmation ⏳ ...</div>
+      )}
+      {isConfirmed && (
+        <div className="text-center">
+          Transaction Confirmed! 🎉{" "}
+          <a href={`https://polygonscan.com/tx/${hash}`}>Check Polygonscan</a>
+        </div>
+      )}
+      {error && (
+        <div>Error: {(error as BaseError).shortMessage || error.message}</div>
+      )}
     </div>
   );
 }

@@ -20,10 +20,6 @@ import {
 import ZeroExLogo from "../../src/images/white-0x-logo.png";
 import Image from "next/image";
 import qs from "qs";
-import { write } from "fs";
-
-const AFFILIATE_FEE = 0.01; // Percentage of the buyAmount that should be attributed to feeRecipient as affiliate fees
-const FEE_RECIPIENT = "0x75A94931B81d81C7a62b76DC0FcFAC77FbE1e917"; // The ETH address that should receive affiliate fees
 
 export const DEFAULT_BUY_TOKEN = (chainId: number) => {
   if (chainId === 137) {
@@ -166,6 +162,9 @@ export default function PriceView({
         </header>
 
         <div className="bg-slate-200 dark:bg-slate-800 p-4 rounded-md mb-3">
+          <label htmlFor="sell" className="text-gray-300 mb-2 mr-2">
+            Sell
+          </label>
           <section className="mt-4 flex items-start justify-center">
             <label htmlFor="sell-select" className="sr-only"></label>
             <Image
@@ -203,12 +202,16 @@ export default function PriceView({
               value={sellAmount}
               className="h-9 rounded-md"
               style={{ border: "1px solid black" }}
+              type="number"
               onChange={(e) => {
                 setTradeDirection("sell");
                 setSellAmount(e.target.value);
               }}
             />
           </section>
+          <label htmlFor="buy" className="text-gray-300 mb-2 mr-2">
+            Buy
+          </label>
           <section className="flex mb-6 mt-4 items-start justify-center">
             <label htmlFor="buy-token" className="sr-only"></label>
             <Image
@@ -242,6 +245,7 @@ export default function PriceView({
               id="buy-amount"
               value={buyAmount}
               className="h-9 rounded-md bg-white cursor-not-allowed"
+              type="number"
               style={{ border: "1px solid black" }}
               disabled
               onChange={(e) => {
@@ -390,7 +394,7 @@ export default function PriceView({
       args: [takerAddress, exchangeProxy(chainId)],
     });
 
-    // 2. (only if no allowance): write to erc20, approve 0x Exchange Proxy to spend max integer
+    // 2. (only if no allowance): write to erc20, approve a token allowance for 0x Exchange Proxy
     const { data } = useSimulateContract({
       address: sellTokenAddress,
       abi: erc20Abi,
@@ -399,7 +403,6 @@ export default function PriceView({
     });
 
     // Define useWriteContract for the 'approve' operation
-    // what was approveAsync?
     const {
       data: writeContractResult,
       writeContractAsync: writeContract,
